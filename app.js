@@ -49,8 +49,32 @@ app.get("/", function (request, response) {
 });
  
 
+//mysqlパッケージの読み込み
+const mysql=require('mysql');
+//接続情報をcreateConnectionメソッドを用いて定数connectionに代入
+const connection=mysql.createConnection({
+  //データベース名、パスワードなどを記述
+});
 
+connection.query(
+  'SELECT * FROM items'
+  (error,results)=>{
+    console.log(results);
+    res.render('index.ejs');
+  }
+);
 
+app.get('/index', (req,res)=>{
+  connection.query( 'SELECT * FROM items',
+    (error,results)=>{
+      res.render('index.ejs',{items:results}); //オブジェクトを渡す
+    }
+  );
+};
+
+app.post('/create', (req,res)=>{
+  //処理
+});
 
 
 module.exports = app;
